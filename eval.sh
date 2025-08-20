@@ -47,17 +47,20 @@ JUDGE_MODEL_TYPE="openai"  # openai or gemini or deepseek or claude
 # load via .env file
 # API_KEY=""
 # BASE_URL=""
-source .env
+# if USE_LLM_JUDGE is "True", then API_KEY and BASE_URL must be set
+if [ -f ".env" ]; then
+    echo "loading from .env"
+    source .env
+    # Check if the required environment variables are set
+    if [ -z "$API_KEY" ]; then
+        echo "Warning: \`API_KE' not in ./.env."
+    fi
 
-# Check if the required environment variables are set
-if [ -z "$API_KEY" ]; then
-    echo "Error: API_KEY is not set. Please set it in the .env file."
-    exit 1
-fi
-
-if [ -z "$BASE_URL" ]; then
-    echo "Error: BASE_URL is not set. Please set it in the .env file."
-    exit 1
+    if [ -z "$BASE_URL" ]; then
+        echo "Warning: \`BASE_URL' not in ./.env."
+    fi
+else
+    echo ".env file not found. Please create a .env file with the required variables."
 fi
 
 echo "Running with GPU $CUDA_VISIBLE_DEVICES"
