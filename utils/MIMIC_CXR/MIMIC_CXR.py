@@ -39,7 +39,7 @@ class MIMIC_CXR(BaseDataset):
                     current_samples = []
             if current_messages:
                 messages_list.append([current_messages,current_samples])
-            
+
             for current_messages,current_samples in tqdm(messages_list):
                 outputs = model.generate_outputs(current_messages)
                 try:
@@ -53,14 +53,12 @@ class MIMIC_CXR(BaseDataset):
                 gc.collect()
         return out_samples
 
-
-    
     def load_data(self):
-        dataset_path = self.dataset_path
-        json_path = os.path.join(dataset_path,"test.json")
+        # modified for data from
+        # https://huggingface.co/datasets/itsanmolgupta/mimic-cxr-dataset-cleaned
 
-        with open(json_path,"r") as f:
-            dataset = json.load(f)
+        dataset_path = self.dataset_path
+        dataset = load_dataset(dataset_path,split = "test")
 
         for idx,sample in tqdm(enumerate(dataset)):
             if idx % self.num_chunks == self.chunk_idx:
@@ -72,22 +70,19 @@ class MIMIC_CXR(BaseDataset):
         return self.samples
 
     def construct_messages(self,sample):
-        image_root = os.path.join(self.dataset_path,"images")
-        images = sample["image"]
-        images = [Image.open(os.path.join(image_root,image)) for image in images]
+        images = [sample["image"]]
         findings = sample["findings"]
         impression = sample["impression"]
 
         findings = "None" if findings.strip() == "" else findings
         impression = "None" if impression.strip() == "" else impression
-        
+
         prompt = """
         You are a helpful assistant. Please generate a report for the given images, including both findings and impressions. Return the report in the following format: Findings: {} Impression: {}.
         """
         messages = {"prompt":prompt,"images":images}
         sample["messages"] = messages
         return sample
-
 
     def cal_metrics(self,out_samples):
         import pandas as pd
@@ -103,7 +98,7 @@ class MIMIC_CXR(BaseDataset):
 
             # 生成唯一的study_id
             study_id = f"study_{i+1}"
-            
+
             # 添加预测数据
             predictions_data.append({
                 'study_id': study_id,
@@ -116,7 +111,6 @@ class MIMIC_CXR(BaseDataset):
                 'report': golden
             })
 
-
         predictions_df = pd.DataFrame(predictions_data)
         ground_truth_df = pd.DataFrame(ground_truth_data)
 
@@ -126,6 +120,3 @@ class MIMIC_CXR(BaseDataset):
         ground_truth_df.to_csv(ground_truth_path, index=False)
 
         return {"total metrics":"please use cal_report_metrics.py to generate metrics"},out_samples
-
-
-                

@@ -1,12 +1,24 @@
 #!/bin/bash
-export HF_ENDPOINT=https://hf-mirror.com
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=meng.wang@cair-cas.org.hk
+#SBATCH --mem-per-gpu=64G
+#SBATCH -c 24
+#SBATCH -p a100
+#SBATCH -t 30-00:00:00
+#SBATCH -o logs/job/%j.out
+#SBATCH -e logs/job/%j.err
+#SBATCH -J job
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --gres=gpu:1
+
 # MMMU-Medical-test,MMMU-Medical-val,PMC_VQA,MedQA_USMLE,MedMCQA,PubMedQA,OmniMedVQA,Medbullets_op4,Medbullets_op5,MedXpertQA-Text,MedXpertQA-MM,SuperGPQA,HealthBench,IU_XRAY,CheXpert_Plus,MIMIC_CXR,CMB,CMExam,CMMLU,MedQA_MCMLE,VQA_RAD,SLAKE,PATH_VQA,MedFrameQA,Radrestruct
-EVAL_DATASETS="Medbullets_op4" 
-DATASETS_PATH="hf"
+EVAL_DATASETS="MMMU-Medical-val,PMC_VQA,MIMIC_CXR,VQA_RAD,SLAKE,PATH_VQA" 
+DATASETS_PATH="/public/datasets/lmm-eval"
 OUTPUT_PATH="eval_results/{}"
 # TestModel,Qwen2-VL,Qwen2.5-VL,BiMediX2,LLava_Med,Huatuo,InternVL,Llama-3.2,LLava,Janus,HealthGPT,BiomedGPT,Vllm_Text,MedGemma,Med_Flamingo,MedDr
 MODEL_NAME="Qwen2.5-VL"
-MODEL_PATH="Qwen2.5-VL-7B-Instruct"
+MODEL_PATH="/public/models/Qwen2.5-VL-7B-Instruct"
 
 #vllm setting
 CUDA_VISIBLE_DEVICES="0"
@@ -31,12 +43,28 @@ USE_LLM_JUDGE="True"
 # gpt api model name
 GPT_MODEL="gpt-4.1-2025-04-14"
 JUDGE_MODEL_TYPE="openai"  # openai or gemini or deepseek or claude
-API_KEY=""
-BASE_URL=""
 
+# load via .env file
+# API_KEY=""
+# BASE_URL=""
+source .env
+
+# Check if the required environment variables are set
+if [ -z "$API_KEY" ]; then
+    echo "Error: API_KEY is not set. Please set it in the .env file."
+    exit 1
+fi
+
+if [ -z "$BASE_URL" ]; then
+    echo "Error: BASE_URL is not set. Please set it in the .env file."
+    exit 1
+fi
+
+echo "Running with GPU $CUDA_VISIBLE_DEVICES"
+uv run python -c "import torch; print('cuda:', torch.cuda.is_available())"
 
 # pass hyperparameters and run python sccript
-python eval.py \
+uv run eval.py \
     --eval_datasets "$EVAL_DATASETS" \
     --datasets_path "$DATASETS_PATH" \
     --output_path "$OUTPUT_PATH" \

@@ -108,7 +108,7 @@ class SLAKE(BaseDataset):
             answer_type = out_sample["answer_type"]
 
             if os.environ.get("use_llm_judge","False") == "True":
-                messages = get_compare_messages(question,response,answer,lang,answer_type)
+                messages = get_compare_messages(question,response,answer)
                 messages_list.append(messages)
                 langs.append(lang)
                 answer_types.append(answer_type)
