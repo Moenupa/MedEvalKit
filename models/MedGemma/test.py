@@ -1,8 +1,8 @@
 # pip install accelerate
-from transformers import AutoProcessor, AutoModelForImageTextToText
-from PIL import Image
 import requests
 import torch
+from PIL import Image
+from transformers import AutoModelForImageTextToText, AutoProcessor
 
 model_id = "/mnt/workspace/workgroup_dev/longli/models/hub/medgemma-4b-it"
 

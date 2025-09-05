@@ -14,15 +14,26 @@
 
 
 import os
-import warnings
-import shutil
-
-from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig, BitsAndBytesConfig
-import torch
-from .language_model.llava_llama import LlavaLlamaForCausalLM
-# from .language_model.llava_mpt import LlavaMPTForCausalLM
-from .constants import DEFAULT_IMAGE_PATCH_TOKEN, DEFAULT_IM_START_TOKEN, DEFAULT_IM_END_TOKEN
 import pdb
+import shutil
+import warnings
+
+import torch
+from transformers import (
+    AutoConfig,
+    AutoModelForCausalLM,
+    AutoTokenizer,
+    BitsAndBytesConfig,
+)
+
+# from .language_model.llava_mpt import LlavaMPTForCausalLM
+from .constants import (
+    DEFAULT_IM_END_TOKEN,
+    DEFAULT_IM_START_TOKEN,
+    DEFAULT_IMAGE_PATCH_TOKEN,
+)
+from .language_model.llava_llama import LlavaLlamaForCausalLM
+
 
 def load_pretrained_model(model_path, model_base, model_name, load_8bit=False, load_4bit=False, device_map="auto", device="cuda", **kwargs):
     kwargs = {"device_map": device_map, **kwargs}

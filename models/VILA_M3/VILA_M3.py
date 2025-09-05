@@ -1,6 +1,7 @@
+import os
+
 from transformers import AutoProcessor
 from vllm import LLM, SamplingParams
-import os
 
 
 class VILA_M3:

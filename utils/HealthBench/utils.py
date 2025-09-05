@@ -1,8 +1,9 @@
-import re
 import json
+import re
+from collections import defaultdict
+
 import numpy as np
 
-from collections import defaultdict
 
 class RubricItem:
     def __init__(self, criterion: str, points: float, tags: list[str]):

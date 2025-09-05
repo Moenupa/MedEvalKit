@@ -1,29 +1,44 @@
-import os, sys
+import os
+import sys
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
-import copy, re
-from dataclasses import dataclass, field
+import argparse
+import copy
 import json
 import logging
 import pathlib
-from typing import Dict, Optional, Sequence, List
+import pickle
+import re
+from dataclasses import dataclass, field
+from typing import Dict, List, Optional, Sequence
+
+import tokenizers
 import torch
 import transformers
-import tokenizers
-from llava.constants import IGNORE_INDEX, IMAGE_TOKEN_INDEX, DEFAULT_IMAGE_TOKEN, DEFAULT_IM_START_TOKEN, DEFAULT_IM_END_TOKEN
+from packaging import version
+from PIL import Image
 from torch.utils.data import Dataset
 
 from llava import conversation as conversation_lib
-from llava.model import *
+from llava.constants import (
+    DEFAULT_IM_END_TOKEN,
+    DEFAULT_IM_START_TOKEN,
+    DEFAULT_IMAGE_TOKEN,
+    IGNORE_INDEX,
+    IMAGE_TOKEN_INDEX,
+)
 from llava.mm_utils import tokenizer_image_token
-from llava.model.language_model.llava_phi3 import LlavaPhiForCausalLM, LlavaPhiConfig
-from PIL import Image
-import pickle
-import argparse
-from packaging import version
-IS_TOKENIZER_GREATER_THAN_0_14 = version.parse(tokenizers.__version__) >= version.parse('0.14')
-from utils import find_all_linear_names, add_special_tokens_and_resize_model, load_weights, expand2square
+from llava.model import *
+from llava.model.language_model.llava_phi3 import LlavaPhiConfig, LlavaPhiForCausalLM
 
+IS_TOKENIZER_GREATER_THAN_0_14 = version.parse(tokenizers.__version__) >= version.parse('0.14')
+from utils import (
+    add_special_tokens_and_resize_model,
+    expand2square,
+    find_all_linear_names,
+    load_weights,
+)
 
 
 def infer():

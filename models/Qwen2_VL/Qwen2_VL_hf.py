@@ -1,6 +1,6 @@
-from transformers import AutoProcessor
 from qwen_vl_utils import process_vision_info
-from transformers import Qwen2VLForConditionalGeneration, AutoTokenizer, AutoProcessor
+from transformers import AutoProcessor, AutoTokenizer, Qwen2VLForConditionalGeneration
+
 
 class Qwen2VL:
     def __init__(self,model_path,args):

@@ -1,20 +1,19 @@
-import torch
-import os
-import json
-import gc
 import csv
-
-from PIL import Image
-from datasets import load_dataset
+import gc
+import json
+import os
 from collections import defaultdict
-from tqdm import tqdm
 
 import numpy as np
+import torch
+from datasets import load_dataset
+from PIL import Image
+from tqdm import tqdm
 
-from ..utils import save_json,extract
 from ..base_dataset import BaseDataset
-
 from ..question_formats import get_report_generation_prompt
+from ..utils import extract, save_json
+
 
 class IU_XRAY(BaseDataset):
     def __init__(self,model,dataset_path,output_path):

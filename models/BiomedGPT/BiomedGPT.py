@@ -1,8 +1,8 @@
-from transformers import OFATokenizer, OFAModel
+import torch
 from PIL import Image
 from torchvision import transforms
 from tqdm import tqdm
-import torch
+from transformers import OFAModel, OFATokenizer
 
 
 class BiomedGPT:

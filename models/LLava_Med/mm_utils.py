@@ -1,10 +1,10 @@
-from PIL import Image
-from io import BytesIO
 import base64
 import random
-import torch
-from transformers import StoppingCriteria
+from io import BytesIO
 
+import torch
+from PIL import Image
+from transformers import StoppingCriteria
 
 IMAGE_TOKEN_INDEX = -200
 

@@ -1,13 +1,13 @@
-from huggingface_hub import hf_hub_download
-import torch
 import os
-from open_flamingo import create_model_and_transforms
+import sys
+from abc import ABC, abstractmethod
+
+import torch
 from accelerate import Accelerator
 from einops import repeat
+from huggingface_hub import hf_hub_download
+from open_flamingo import create_model_and_transforms
 from PIL import Image
-import sys
-import torch
-from abc import ABC, abstractmethod
 
 
 class AbstractProcessor(ABC):

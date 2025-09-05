@@ -1,29 +1,27 @@
+import asyncio
+import copy
+import difflib
 import json
 import math
-import sys
-import copy
-import re
 import os
-import json
-import difflib
-import asyncio
 import random
+import re
+import sys
+from collections import Counter, defaultdict
 
 from google import genai
-from tqdm import tqdm
-from tqdm.asyncio import tqdm_asyncio
-from nltk.translate.meteor_score import single_meteor_score
-from nltk.translate.bleu_score import sentence_bleu
-from rouge import Rouge
 from mathruler.grader import extract_boxed_content
-
-from collections import defaultdict, Counter
-from openai import AzureOpenAI, OpenAI,AsyncAzureOpenAI,AsyncOpenAI
+from nltk.translate.bleu_score import sentence_bleu
+from nltk.translate.meteor_score import single_meteor_score
+from openai import AsyncAzureOpenAI, AsyncOpenAI, AzureOpenAI, OpenAI
+from rouge import Rouge
 from tenacity import (
     retry,
     stop_after_attempt,
     wait_fixed,
 )
+from tqdm import tqdm
+from tqdm.asyncio import tqdm_asyncio
 
 
 def tokenize(text):

@@ -1,8 +1,9 @@
-import dataclasses
-from enum import auto, Enum
-from typing import List, Tuple
 import base64
+import dataclasses
+from enum import Enum, auto
 from io import BytesIO
+from typing import List, Tuple
+
 from PIL import Image
 
 
@@ -160,6 +161,7 @@ class Conversation:
                 if type(msg) is tuple:
                     import base64
                     from io import BytesIO
+
                     from PIL import Image
                     msg, image, image_process_mode = msg
                     if image_process_mode == "Pad":

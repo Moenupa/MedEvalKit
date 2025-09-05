@@ -19,13 +19,17 @@ from typing import List, Optional, Tuple, Union
 
 import torch
 import torch.nn as nn
-
-from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer, \
-                         Qwen2ForCausalLM, Qwen2Config, Qwen2Model \
-
+from transformers import (
+    AutoConfig,
+    AutoModelForCausalLM,
+    AutoTokenizer,
+    Qwen2Config,
+    Qwen2ForCausalLM,
+    Qwen2Model,
+)
 from transformers.modeling_outputs import CausalLMOutputWithPast
 
-from ..llava_arch import LlavaMetaModel, LlavaMetaForCausalLM
+from ..llava_arch import LlavaMetaForCausalLM, LlavaMetaModel
 
 
 class LlavaQwenConfig(Qwen2Config):

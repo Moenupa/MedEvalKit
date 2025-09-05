@@ -1,12 +1,17 @@
-from transformers import AutoTokenizer
-from transformers import TextIteratorStreamer
 from threading import Thread
+
 import torch
-
 from PIL import Image
+from transformers import AutoTokenizer, TextIteratorStreamer
 
-from .model.constants import IMAGE_TOKEN_INDEX, DEFAULT_IMAGE_TOKEN, DEFAULT_IM_START_TOKEN, DEFAULT_IM_END_TOKEN
 from .model import *
+from .model.constants import (
+    DEFAULT_IM_END_TOKEN,
+    DEFAULT_IM_START_TOKEN,
+    DEFAULT_IMAGE_TOKEN,
+    IMAGE_TOKEN_INDEX,
+)
+
 
 class HuatuoChatbot():
     def __init__(self, model_dir, device = 'cuda'):

@@ -1,8 +1,14 @@
+import math
+
 import torch
 import torch.nn as nn
+from transformers import (
+    AutoModel,
+    CLIPImageProcessor,
+    CLIPVisionConfig,
+    CLIPVisionModel,
+)
 
-from transformers import CLIPVisionModel, CLIPImageProcessor, CLIPVisionConfig, AutoModel
-import math
 
 class CLIPVisionTower(nn.Module):
     def __init__(self, vision_tower, args, delay_load=False):

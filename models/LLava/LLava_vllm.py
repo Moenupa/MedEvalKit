@@ -1,7 +1,8 @@
+import os
+
+from PIL import Image
 from transformers import AutoProcessor
 from vllm import LLM, SamplingParams
-import os
-from PIL import Image
 
 
 # os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "0"

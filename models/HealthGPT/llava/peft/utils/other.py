@@ -69,7 +69,11 @@ def fsdp_auto_wrap_policy(model):
     import os
 
     from accelerate import FullyShardedDataParallelPlugin
-    from torch.distributed.fsdp.wrap import _or_policy, lambda_auto_wrap_policy, transformer_auto_wrap_policy
+    from torch.distributed.fsdp.wrap import (
+        _or_policy,
+        lambda_auto_wrap_policy,
+        transformer_auto_wrap_policy,
+    )
 
     from ..tuners import PrefixEncoder, PromptEmbedding, PromptEncoder
 

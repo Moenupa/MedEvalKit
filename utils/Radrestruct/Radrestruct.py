@@ -1,13 +1,22 @@
 
-import os
 import json
-from PIL import Image
-from tqdm import tqdm
-from pydash import at
+import os
+
 from mathruler.grader import extract_boxed_content
-from ..question_formats import get_judgement_prompt,get_multiple_choice_prompt
-from ..utils import save_json,extract,judge_multi_choice,judge_close_end_vqa,judge_judgement
+from PIL import Image
+from pydash import at
+from tqdm import tqdm
+
 from ..base_dataset import BaseDataset
+from ..question_formats import get_judgement_prompt, get_multiple_choice_prompt
+from ..utils import (
+    extract,
+    judge_close_end_vqa,
+    judge_judgement,
+    judge_multi_choice,
+    save_json,
+)
+
 
 class Radrestruct(BaseDataset):
     def __init__(self,model,dataset_path,output_path):

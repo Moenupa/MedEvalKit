@@ -1,11 +1,12 @@
-from transformers import AutoProcessor, AutoModelForImageTextToText
-from vllm import LLM, SamplingParams
 import os
+
 import torch
-
-from tqdm import tqdm
-
 from PIL import Image
+from tqdm import tqdm
+from transformers import AutoModelForImageTextToText, AutoProcessor
+from vllm import LLM, SamplingParams
+
+
 class MedGemma:
     def __init__(self,model_path,args):
         super().__init__()

@@ -1,11 +1,12 @@
-import torch
-import os
-import json
-
-from tqdm import tqdm
 import gc
+import json
+import os
+
+import torch
+from tqdm import tqdm
 
 from .utils import save_json
+
 
 class BaseDataset:
   def __init__(self):

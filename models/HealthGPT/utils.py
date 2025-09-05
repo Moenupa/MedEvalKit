@@ -1,10 +1,13 @@
+import argparse
+import os
+import sys
+from dataclasses import dataclass, field
+
+import tokenizers
 import torch
 import transformers
-import tokenizers
-import os, sys
-from dataclasses import dataclass, field
-import argparse
 from PIL import Image
+
 
 def expand2square(pil_img, background_color):
     width, height = pil_img.size

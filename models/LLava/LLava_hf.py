@@ -1,7 +1,9 @@
-import torch
 import os
+
+import torch
 from PIL import Image
-from transformers import LlavaNextProcessor, LlavaNextForConditionalGeneration
+from transformers import LlavaNextForConditionalGeneration, LlavaNextProcessor
+
 
 # os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "0"
 class Llava:

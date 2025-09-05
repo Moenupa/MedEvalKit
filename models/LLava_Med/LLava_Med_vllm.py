@@ -1,9 +1,11 @@
-from vllm import LLM, SamplingParams
 import os
-from PIL import Image
 
-from .utils import DEFAULT_IMAGE_TOKEN,download
+from PIL import Image
+from vllm import LLM, SamplingParams
+
 from .conversation import conv_templates
+from .utils import DEFAULT_IMAGE_TOKEN, download
+
 
 class LLavaMed:
     def __init__(self,model_path,args):

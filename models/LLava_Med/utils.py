@@ -13,24 +13,29 @@
 #    limitations under the License.
 
 
-from abc import ABC, abstractmethod
 import os
+from abc import ABC, abstractmethod
 from glob import glob
+from typing import List, Optional, Tuple, Union
 
+import requests
 import torch
 import torch.nn as nn
-
-from typing import List, Optional, Tuple, Union
-from transformers import AutoConfig, AutoModelForCausalLM, \
-                         MistralConfig, MistralModel, MistralForCausalLM
-from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig, BitsAndBytesConfig
-from transformers.modeling_outputs import CausalLMOutputWithPast
+from transformers import (
+    AutoConfig,
+    AutoModelForCausalLM,
+    AutoTokenizer,
+    BitsAndBytesConfig,
+    MistralConfig,
+    MistralForCausalLM,
+    MistralModel,
+)
 from transformers.generation.utils import GenerateOutput
-import requests
-
+from transformers.modeling_outputs import CausalLMOutputWithPast
 
 from .multimodal_encoder.builder import build_vision_tower
 from .multimodal_projector.builder import build_vision_projector
+
 
 def download(url):
     try:

@@ -1,9 +1,11 @@
+import os
+
+from PIL import Image
 from transformers import AutoProcessor
 from vllm import LLM, SamplingParams
-import os
-from PIL import Image
 
 from .conversations import internvl_conv
+
 
 class InternVL:
     def __init__(self,model_path,args):

@@ -1,5 +1,6 @@
 from abc import abstractmethod
 
+
 class BaseLLM:
     def __init__(self):
         pass

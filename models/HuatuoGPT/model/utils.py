@@ -1,5 +1,6 @@
-from transformers import AutoConfig
 import requests
+from transformers import AutoConfig
+
 
 def download(url):
     try:

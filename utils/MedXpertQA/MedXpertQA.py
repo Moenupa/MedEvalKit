@@ -1,17 +1,17 @@
-import torch
-import os
-import json
 import gc
-
-from PIL import Image
-from datasets import load_dataset
+import json
+import os
 from collections import defaultdict
+
+import torch
+from datasets import load_dataset
+from PIL import Image
 from tqdm import tqdm
 
-from ..utils import save_json,extract,judge_multi_choice
 from ..base_dataset import BaseDataset
-
 from ..question_formats import get_multiple_choice_prompt
+from ..utils import extract, judge_multi_choice, save_json
+
 
 class MedXpertQA(BaseDataset):
     def __init__(self,model,dataset_path,output_path,split = "MM"):

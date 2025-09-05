@@ -17,7 +17,6 @@ import glob
 import torch
 from huggingface_hub import file_exists, hf_hub_download, snapshot_download
 from safetensors import safe_open
-
 from transformers import (
     AddedToken,
     AutoConfig,
@@ -28,7 +27,6 @@ from transformers import (
     LlavaProcessor,
     SiglipVisionConfig,
 )
-
 
 EPILOG_TXT = """Example:
     python transformers/src/transformers/models/llava/convert_llava_weights_to_hf.py --text_model_id lmsys/vicuna-7b-v1.5 --vision_model_id openai/clip-vit-large-patch14-336 --output_hub_path org/llava-v1.5-7b-conv --old_state_dict_id liuhaotian/llava-v1.5-7b

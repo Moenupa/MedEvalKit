@@ -1,7 +1,9 @@
+import os
+
+from PIL import Image
 from transformers import AutoProcessor
 from vllm import LLM, SamplingParams
-import os
-from PIL import Image
+
 
 class LlamaVision:
     def __init__(self,model_path,args):

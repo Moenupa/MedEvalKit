@@ -1,6 +1,7 @@
 
-from .eval_val import eval_MMMU_val
 from .eval_test import eval_MMMU_test
+from .eval_val import eval_MMMU_val
+
 
 class MMMU:
     def __init__(self,model,dataset_path,output_path,split = "test",subset = "Medical"):

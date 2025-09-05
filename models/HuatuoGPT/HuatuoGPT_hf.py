@@ -1,5 +1,7 @@
-from tqdm import tqdm
 import os
+
+from tqdm import tqdm
+
 from .cli import HuatuoChatbot
 
 

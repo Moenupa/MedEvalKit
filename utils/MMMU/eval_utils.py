@@ -1,11 +1,14 @@
 """Response Parsing and Evaluation for various models"""
+import random
+import re
 from typing import Dict
 
-import re
-import random
 import numpy as np
 from mathruler.grader import extract_boxed_content
+
 from ..utils import extract
+
+
 # ----------- Process Multi-choice -------------
 def parse_multi_choice_response(response, all_choices, index2ans):
     """

@@ -1,7 +1,8 @@
-import torch
 import os
+
+import torch
 from PIL import Image
-from transformers import MllamaForConditionalGeneration, AutoProcessor
+from transformers import AutoProcessor, MllamaForConditionalGeneration
 
 
 class LlamaVision:

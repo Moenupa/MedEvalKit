@@ -1,20 +1,16 @@
-from nltk.translate.meteor_score import single_meteor_score
-from nltk.translate.bleu_score import sentence_bleu
-from rouge import Rouge
-
-
-from cidereval import cider, ciderD
-from bert_score import BERTScorer
-from RaTEScore import RaTEScore
-from green_score import GREEN
-from tqdm import tqdm
 import json
-
 import os
+
 import nltk
-
 import numpy as np
-
+from bert_score import BERTScorer
+from cidereval import cider, ciderD
+from green_score import GREEN
+from nltk.translate.bleu_score import sentence_bleu
+from nltk.translate.meteor_score import single_meteor_score
+from RaTEScore import RaTEScore
+from rouge import Rouge
+from tqdm import tqdm
 
 # caculate the metrics of ratescore, green score, cider, bleu, rouge, meteor
 # other metrics please refer to https://github.com/rajpurkarlab/CXR-Report-Metric

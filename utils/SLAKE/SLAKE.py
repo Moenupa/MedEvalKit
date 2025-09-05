@@ -1,20 +1,27 @@
-import torch
-import os
-import json
-import gc
 import csv
-
-from PIL import Image
-from datasets import load_dataset,load_from_disk
+import gc
+import json
+import os
 from collections import defaultdict
+
+import torch
+from datasets import load_dataset, load_from_disk
+from mathruler.grader import extract_boxed_content
+from PIL import Image
 from tqdm import tqdm
 
-
-from mathruler.grader import extract_boxed_content
-from ..utils import save_json,extract,judger,get_compare_messages,judge_open_end_vqa,judge_judgement,judge_close_end_vqa
 from ..base_dataset import BaseDataset
+from ..question_formats import get_close_ended_prompt, get_open_ended_prompt
+from ..utils import (
+    extract,
+    get_compare_messages,
+    judge_close_end_vqa,
+    judge_judgement,
+    judge_open_end_vqa,
+    judger,
+    save_json,
+)
 
-from ..question_formats import get_close_ended_prompt,get_open_ended_prompt
 
 class SLAKE(BaseDataset):
     def __init__(self,model,dataset_path,output_path):

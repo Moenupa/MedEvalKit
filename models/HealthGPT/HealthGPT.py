@@ -1,21 +1,30 @@
-import os, sys
+import os
+import sys
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+import tokenizers
 import torch
 import transformers
-import tokenizers
-
+from packaging import version
 from PIL import Image
 from tqdm import tqdm
-from packaging import version
+
 IS_TOKENIZER_GREATER_THAN_0_14 = version.parse(tokenizers.__version__) >= version.parse('0.14')
 
-from .llava.constants import  IMAGE_TOKEN_INDEX, DEFAULT_IMAGE_TOKEN
-from .llava.peft import LoraConfig, get_peft_model
 from .llava import conversation as conversation_lib
+from .llava.constants import DEFAULT_IMAGE_TOKEN, IMAGE_TOKEN_INDEX
+from .llava.mm_utils import process_images, tokenizer_image_token
 from .llava.model import *
-from .llava.mm_utils import tokenizer_image_token,process_images
-from .llava.model.language_model.llava_phi3 import LlavaPhiForCausalLM, LlavaPhiConfig
-from .utils import find_all_linear_names, add_special_tokens_and_resize_model, load_weights, expand2square,com_vision_args
+from .llava.model.language_model.llava_phi3 import LlavaPhiConfig, LlavaPhiForCausalLM
+from .llava.peft import LoraConfig, get_peft_model
+from .utils import (
+    add_special_tokens_and_resize_model,
+    com_vision_args,
+    expand2square,
+    find_all_linear_names,
+    load_weights,
+)
+
 
 class HealthGPT:
     def __init__(self,model_path,args):

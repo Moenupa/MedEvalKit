@@ -1,9 +1,11 @@
-import torch
 import os
-from tqdm import tqdm
-from transformers import AutoModelForCausalLM
+
+import torch
 from janus.models import MultiModalityCausalLM, VLChatProcessor
 from janus.utils.io import load_pil_images
+from tqdm import tqdm
+from transformers import AutoModelForCausalLM
+
 
 class Janus:
     def __init__(self,model_path,args):

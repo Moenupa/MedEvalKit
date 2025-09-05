@@ -1,7 +1,8 @@
+import os
+
+from qwen_vl_utils import process_vision_info
 from transformers import AutoProcessor
 from vllm import LLM, SamplingParams
-from qwen_vl_utils import process_vision_info
-import os
 
 
 class Qwen2VL:

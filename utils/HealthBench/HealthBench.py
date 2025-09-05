@@ -1,17 +1,25 @@
-import torch
-import os
-import json
-import gc
-import csv
 import asyncio
-
-from PIL import Image
-from datasets import load_dataset,load_from_disk
+import csv
+import gc
+import json
+import os
 from collections import defaultdict
+
+import torch
+from datasets import load_dataset, load_from_disk
+from PIL import Image
 from tqdm import tqdm
-from .utils import RubricItem,GRADER_TEMPLATE,calculate_score,_aggregate_get_clipped_mean,parse_json_to_dict
-from ..utils import save_json,extract,judger,deal_tasks
+
 from ..base_dataset import BaseDataset
+from ..utils import deal_tasks, extract, judger, save_json
+from .utils import (
+    GRADER_TEMPLATE,
+    RubricItem,
+    _aggregate_get_clipped_mean,
+    calculate_score,
+    parse_json_to_dict,
+)
+
 
 def read_jsonl(jsonl_path):
     new_datas = []

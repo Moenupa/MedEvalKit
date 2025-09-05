@@ -1,10 +1,14 @@
+import math
+
 import torch
 import torch.nn as nn
-
-from transformers import CLIPVisionModel, CLIPImageProcessor, CLIPVisionConfig, AutoModel
-
-from transformers import CLIPPreTrainedModel
-import math
+from transformers import (
+    AutoModel,
+    CLIPImageProcessor,
+    CLIPPreTrainedModel,
+    CLIPVisionConfig,
+    CLIPVisionModel,
+)
 
 
 class CLIPVisionEmbeddingsLargerInput(nn.Module):
@@ -204,8 +208,9 @@ class CLIPVisionTower(nn.Module):
 
 if __name__ == '__main__':
     vision_tower = CLIPVisionTower('/wangbenyou/guimingchen/models/clip_vit_large_patch14_336', None)
-    from PIL import Image
     import pdb
+
+    from PIL import Image
 
     # vision_tower.load_model()
     processor = vision_tower.image_processor

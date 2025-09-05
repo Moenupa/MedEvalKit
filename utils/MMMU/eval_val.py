@@ -1,17 +1,24 @@
-import torch
 import os
 import random
+from argparse import ArgumentParser
 
 import numpy as np
+import torch
+from datasets import concatenate_datasets, load_dataset
+from mathruler.grader import extract_boxed_content
 from tqdm import tqdm
 
-from datasets import load_dataset, concatenate_datasets
-
-from argparse import ArgumentParser
-from mathruler.grader import extract_boxed_content
-from .data_utils import load_yaml, construct_prompt, save_json, process_single_sample, CAT_SHORT2LONG,DOMAIN_CAT2SUB_CAT
-from .eval_utils import evaluate,parse_multi_choice_response, parse_open_response
 from ..utils import extract
+from .data_utils import (
+    CAT_SHORT2LONG,
+    DOMAIN_CAT2SUB_CAT,
+    construct_prompt,
+    load_yaml,
+    process_single_sample,
+    save_json,
+)
+from .eval_utils import evaluate, parse_multi_choice_response, parse_open_response
+
 
 def run_model(samples, model,):
     out_samples = []

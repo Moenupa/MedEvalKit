@@ -1,6 +1,7 @@
+import os
+
 from transformers import AutoTokenizer
 from vllm import LLM, SamplingParams
-import os
 
 
 class Vllm_Text:
