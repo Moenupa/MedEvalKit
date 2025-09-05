@@ -22,15 +22,26 @@ from tqdm import tqdm
 
 
 class BiMediX2:
-    def __init__(self,model_path='/mnt/workspace/workgroup_dev/longli/models/hub/BiMediX2-8B',args=None):
+    def __init__(
+        self,
+        model_path="/mnt/workspace/workgroup_dev/longli/models/hub/BiMediX2-8B",
+        args=None,
+    ):
         super().__init__()
         model_name = "BiMediX2"
         device = "cuda"
         device_map = "auto"
 
-        _x,_y,image_processor, _z = load_pretrained_model("/mnt/workspace/workgroup_dev/longli/models/hub/llava-med-v1.5-mistral-7b", None, "llavamistral", device_map=device_map)
+        _x, _y, image_processor, _z = load_pretrained_model(
+            "/mnt/workspace/workgroup_dev/longli/models/hub/llava-med-v1.5-mistral-7b",
+            None,
+            "llavamistral",
+            device_map=device_map,
+        )
 
-        tokenizer, model, _i, max_length = load_pretrained_model(model_path, None, model_name, device_map=device_map)
+        tokenizer, model, _i, max_length = load_pretrained_model(
+            model_path, None, model_name, device_map=device_map
+        )
 
         self.tokenizer = tokenizer
         self.model = model
@@ -42,61 +53,73 @@ class BiMediX2:
         self.top_p = args.top_p
         self.repetition_penalty = args.repetition_penalty
         self.max_new_tokens = args.max_new_tokens
-        '''
+        """
         self.temperature = 1
         self.top_p = 1
         self.repetition_penalty = 1.0
         self.max_new_tokens = 1024
-        '''
-    def process_messages(self,messages):
+        """
+
+    def process_messages(self, messages):
         conv = copy.deepcopy(conv_templates[self.conv_template])
         conv.tokenizer = self.tokenizer
         conv.messages = []
-        if  "system" in messages:
+        if "system" in messages:
             conv.system = messages["system"]
-        
+
         imgs = []
         if "image" in messages:
             image = messages["image"]
-            if isinstance(image,str):
-                image = Image.open(image).convert('RGB')
+            if isinstance(image, str):
+                image = Image.open(image).convert("RGB")
             else:
-                image = image.convert('RGB')
+                image = image.convert("RGB")
             imgs.append(image)
-            prompt = DEFAULT_IMAGE_TOKEN + '\n' + messages["prompt"]
+            prompt = DEFAULT_IMAGE_TOKEN + "\n" + messages["prompt"]
         elif "images" in messages:
             images = messages["images"]
             prompt = ""
-            for i,image in enumerate(images):
-                prompt += f"<image_{i+1}>: " + DEFAULT_IMAGE_TOKEN + '\n'
-                if isinstance(image,str):
+            for i, image in enumerate(images):
+                prompt += f"<image_{i + 1}>: " + DEFAULT_IMAGE_TOKEN + "\n"
+                if isinstance(image, str):
                     if os.path.exists(image):
                         image = Image.open(image)
                     else:
                         image = download(image)
-                elif isinstance(image,Image.Image):
+                elif isinstance(image, Image.Image):
                     image = image.convert("RGB")
                 imgs.append(image)
             prompt += messages["prompt"]
         else:
             prompt = messages["prompt"]
 
-        conv.append_message(conv.roles[0],prompt)
-        conv.append_message(conv.roles[1],None) 
+        conv.append_message(conv.roles[0], prompt)
+        conv.append_message(conv.roles[1], None)
         prompt = conv.get_prompt()
 
         imgs = None if len(imgs) == 0 else imgs
-        return prompt,imgs
+        return prompt, imgs
 
-
-    def generate_output(self,messages):
-        prompt,imgs = self.process_messages(messages)
+    def generate_output(self, messages):
+        prompt, imgs = self.process_messages(messages)
         if imgs:
-            input_ids = tokenizer_image_token(prompt, self.tokenizer, IMAGE_TOKEN_INDEX, return_tensors='pt').unsqueeze(0).cuda()
+            input_ids = (
+                tokenizer_image_token(
+                    prompt, self.tokenizer, IMAGE_TOKEN_INDEX, return_tensors="pt"
+                )
+                .unsqueeze(0)
+                .cuda()
+            )
             imgs = process_images(imgs, self.image_processor, self.model.config)
             imgs = [_image.to(dtype=torch.float16, device="cuda") for _image in imgs]
         else:
-            input_ids = tokenizer_image_token(prompt, self.tokenizer, IMAGE_TOKEN_INDEX, return_tensors='pt').unsqueeze(0).cuda()
+            input_ids = (
+                tokenizer_image_token(
+                    prompt, self.tokenizer, IMAGE_TOKEN_INDEX, return_tensors="pt"
+                )
+                .unsqueeze(0)
+                .cuda()
+            )
             imgs = None
 
         with torch.inference_mode():
@@ -104,20 +127,22 @@ class BiMediX2:
             output_ids = self.model.generate(
                 input_ids,
                 images=imgs,
-                do_sample = do_sample,
-                temperature = self.temperature,
-                top_p = self.top_p,
-                repetition_penalty = self.repetition_penalty,
+                do_sample=do_sample,
+                temperature=self.temperature,
+                top_p=self.top_p,
+                repetition_penalty=self.repetition_penalty,
                 max_new_tokens=self.max_new_tokens,
-                use_cache=True)
+                use_cache=True,
+            )
 
-        outputs = self.tokenizer.batch_decode(output_ids, skip_special_tokens=True)[0].strip()
+        outputs = self.tokenizer.batch_decode(output_ids, skip_special_tokens=True)[
+            0
+        ].strip()
         return outputs
-    
-    def generate_outputs(self,messages_list):
+
+    def generate_outputs(self, messages_list):
         outputs = []
         for messages in tqdm(messages_list):
             output = self.generate_output(messages)
             outputs.append(output)
         return outputs
-        
