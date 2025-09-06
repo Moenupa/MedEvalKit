@@ -107,9 +107,9 @@ git clone https://github.com/DAMO-NLP-SG/MedEvalKit
 cd MedEvalKit
 
 # Install dependencies
-pip install -r requirements.txt
-pip install 'open_clip_torch[training]'
-pip install flash-attn --no-build-isolation
+uv sync
+# not supporting open_clip_torch yet
+# pip install 'open_clip_torch[training]'
 
 # For LLaVA-like models
 git clone https://github.com/LLaVA-VL/LLaVA-NeXT.git
