@@ -2,6 +2,7 @@ import gc
 import json
 import os
 import random
+import sys
 from argparse import ArgumentParser
 
 import numpy as np
@@ -9,6 +10,9 @@ import torch
 from tqdm import tqdm
 
 from LLMs import init_llm
+
+new_limit = 2_000_000
+sys.setrecursionlimit(new_limit)
 
 
 def set_seed(seed_value):
