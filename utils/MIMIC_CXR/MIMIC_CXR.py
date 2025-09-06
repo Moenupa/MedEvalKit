@@ -56,11 +56,11 @@ class MIMIC_CXR(BaseDataset):
         return out_samples
 
     def load_data(self):
-        dataset_path = self.dataset_path
-        json_path = os.path.join(dataset_path, "test.json")
+        # modified for data from
+        # https://huggingface.co/datasets/itsanmolgupta/mimic-cxr-dataset-cleaned
 
-        with open(json_path, "r") as f:
-            dataset = json.load(f)
+        dataset_path = self.dataset_path
+        dataset = load_dataset(dataset_path, split="test")
 
         for idx, sample in tqdm(enumerate(dataset)):
             if idx % self.num_chunks == self.chunk_idx:
@@ -75,9 +75,6 @@ class MIMIC_CXR(BaseDataset):
         return self.samples
 
     def construct_messages(self, sample):
-        image_root = os.path.join(self.dataset_path, "images")
-        images = sample["image"]
-        images = [Image.open(os.path.join(image_root, image)) for image in images]
         findings = sample["findings"]
         impression = sample["impression"]
 
@@ -87,7 +84,7 @@ class MIMIC_CXR(BaseDataset):
         prompt = """
         You are a helpful assistant. Please generate a report for the given images, including both findings and impressions. Return the report in the following format: Findings: {} Impression: {}.
         """
-        messages = {"prompt": prompt, "images": images}
+        messages = {"prompt": prompt, "image": sample["image"]}
         sample["messages"] = messages
         return sample
 
