@@ -1,5 +1,6 @@
+import torch
 from qwen_vl_utils import process_vision_info
-from transformers import AutoProcessor, AutoTokenizer, Qwen2VLForConditionalGeneration
+from transformers import AutoProcessor, Qwen2VLForConditionalGeneration
 
 
 class Qwen2VL:
@@ -7,7 +8,7 @@ class Qwen2VL:
         super().__init__()
         self.llm = Qwen2VLForConditionalGeneration.from_pretrained(
             model_path,
-            torch_dtype=torch.bfloat16,
+            dtype=torch.bfloat16,
             device_map="cuda",
             attn_implementation="flash_attention_2",
         )

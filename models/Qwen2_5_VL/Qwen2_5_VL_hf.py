@@ -1,9 +1,7 @@
 from qwen_vl_utils import process_vision_info
 from transformers import (
     AutoProcessor,
-    AutoTokenizer,
     Qwen2_5_VLForConditionalGeneration,
-    Qwen2_5_VLProcessor,
 )
 
 
@@ -12,7 +10,7 @@ class Qwen2_5_VL:
         super().__init__()
         self.llm = Qwen2_5_VLForConditionalGeneration.from_pretrained(
             model_path,
-            torch_dtype="auto",
+            dtype="auto",
             device_map="auto",
             attn_implementation="flash_attention_2",
         )
